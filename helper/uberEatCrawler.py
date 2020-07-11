@@ -15,6 +15,10 @@ class UberEatCralwer:
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+
     browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
 
     browser.get("https://www.ubereats.com/tw/kaohsiung/food-delivery/%E4%B8%8D%E6%9C%BD%E8%8C%B6%E4%BA%8B%E6%9C%83%E7%A4%BE/bBoXLsMjSgOsIUxmDxqJMA")
