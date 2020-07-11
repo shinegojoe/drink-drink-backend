@@ -1,16 +1,22 @@
 
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
 
 class UberEatCralwer:
   def __init__(self):
     pass
 
   def run(self, url):
-    option = webdriver.ChromeOptions()
-    option.add_argument('headless')
+    # option = webdriver.ChromeOptions()
+    # option.add_argument('headless')
 
-    browser = webdriver.Chrome(chrome_options=option)
-    # browser = webdriver.Chrome()
+    # browser = webdriver.Chrome(chrome_options=option)
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    browser = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=chrome_options)
+
     browser.get("https://www.ubereats.com/tw/kaohsiung/food-delivery/%E4%B8%8D%E6%9C%BD%E8%8C%B6%E4%BA%8B%E6%9C%83%E7%A4%BE/bBoXLsMjSgOsIUxmDxqJMA")
     categrolyList = browser.find_elements_by_tag_name("h2")
 
