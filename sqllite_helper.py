@@ -9,6 +9,9 @@ class SqlLiteHelper:
     # self.cursor = self.conn.cursor()
     print('conn', self.conn)
 
+  def getLastId(self):
+    return self.cursor.lastrowid
+
   def connect(self):
     try:
       self.conn = sqlite3.connect(self.dbName)
@@ -21,6 +24,8 @@ class SqlLiteHelper:
     
   def commit(self):
     self.conn.commit()
+    # self.conn.close()
+  def close(self):
     self.conn.close()
 
   def test(self):

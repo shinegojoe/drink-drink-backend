@@ -5,7 +5,8 @@ from flask_restful import Resource
 
 class Drinks(Resource):
     def __init__(self):
-        self.tabName = 'drinks'
+        self.tabName = 'DRINKS'
+        self.drinkTitle = 'DRINKTITLES'
         self.sqlHelper = SqlLiteHelper()
 
     def options(self):
@@ -25,21 +26,43 @@ class Drinks(Resource):
         shopId = args['shopId']
         print(shopId)
 
-        cmd = 'SELECT * FROM {} WHERE shopId = {}'.format(self.tabName, shopId)
+        cmd = 'SELECT * FROM {} WHERE shopId = {}'.format(self.drinkTitle, shopId)
         # cmd = 'SELECT * FROM {}'.format(self.tabName)
+        drinkTitleRes = self.sqlHelper.execute(cmd)
+        resObj = {}
+        for drinkTitle in drinkTitleRes.fetchall():
+          print(drinkTitle)
+          # print(drinkTitle[2])
+          cmd = 'SELECT * FROM {} WHERE drinkTitleId = {}'.format(self.tabName, drinkTitle[0])
+          drinkRes = self.sqlHelper.execute(cmd)
 
-        res =  self.sqlHelper.execute(cmd)
-        resList = []
-        for row in res.fetchall():
+          drinkList = []
+          for drink in drinkRes.fetchall():
+            print('dd', drink)
             data = {
-            'id': row[0],
-            'name': row[1],
-            'shipId': row[2],
-            'price': row[3],
-            'sizeId': row[4]
+              'id': drink[0],
+              'name': drink[1],
+              'info': drink[2],
+              'price': drink[4]
             }
-            resList.append(data)
-        resp = make_response(jsonify({'code': 200,'data': resList}))
+            drinkList.append(data)
+          resObj[drinkTitle[1]] = drinkList
+
+
+
+
+        # res =  self.sqlHelper.execute(cmd)
+        # resList = []
+        # for row in res.fetchall():
+        #     data = {
+        #     'id': row[0],
+        #     'name': row[1],
+        #     'shipId': row[2],
+        #     'price': row[3],
+        #     'sizeId': row[4]
+        #     }
+        #     resList.append(data)
+        resp = make_response(jsonify({'code': 200,'data': resObj}))
   
       except Exception as e:
               print('error', e)
